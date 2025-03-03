@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Drag and Drop Example</title>
+    <style>
+        /* Set background color */
+        body {
+            background-color: #d4d4d5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Main container */
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 11px 4px 10px rgba(73, 70, 70, 0.1);
+        }
+
+        /* Draggable item */
+        #dragItem {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: grab;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Drop area */
+        #dropArea {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #555;
+            background: #ecf0f1;
+            border-radius: 10px;
+            box-shadow: 2px 5px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style for when dragging over */
+        #dropArea.drag-over {
+            background: #d5e6f3;
+            border: 2px solid #2980b9;
+            color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <p id="dragItem" draggable="true">Drag me!</p>
+
+        <div id="dropArea">
+            <span id="dropText">Drop Here</span>
+        </div>
+
+    </div>
+
+    <script>
+        // Step 2: Dragging starts
+        document.getElementById("dragItem").addEventListener("dragstart", function(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        });
+
+        // Step 3: Allow dropping
+        let dropArea = document.getElementById("dropArea");
+        let dropText = document.getElementById("dropText");
+
+        dropArea.addEventListener("dragover", function(event) {
+            event.preventDefault();
+            dropArea.classList.add("drag-over"); // Add hover effect
+        });
+
+        dropArea.addEventListener("dragleave", function() {
+            dropArea.classList.remove("drag-over"); // Remove hover effect when dragging leaves
+        });
+
+        // Step 4: Handle the drop
+        dropArea.addEventListener("drop", function(event) {
+
+            dropText.textContent = ""; // Hide "Drop Here" text
+
+            event.preventDefault();
+            let draggedItem = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(draggedItem));
+
+
+            dropArea.classList.remove("drag-over"); // Remove hover effect
+           
+            
+        });
+    </script>
+
+</body>
+</html>
+
